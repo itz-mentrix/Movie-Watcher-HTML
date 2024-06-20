@@ -3,11 +3,13 @@ document.getElementById('favorites-button').addEventListener('click',displayFavo
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let reviews = JSON.parse(localStorage.getItem('reviews')) || {};
+//place your imdb api key
+apikey = "Your_IMDB_API_Key"
 
 function searchMovies() {
     const query = document.getElementById('search-input').value;
     if (query) {
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=d9cf93b96321e53a7172e2e0a574d66d&query=${query}`)
+        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apikey}&query=${query}`)
             .then(response => response.json())
             .then(data => {
                 displayMovies(data.results);
@@ -46,7 +48,7 @@ function displayMovies(movies) {
 function showMovie(event) {
     const movieId = event.target.getAttribute('data-movie-id');
     if (movieId) {
-        fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=d9cf93b96321e53a7172e2e0a574d66d`)
+        fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apikey}`)
             .then(response => response.json())
             .then(movieDetails => {
                 const vidsrcUrl = `https://multiembed.mov/?video_id=${movieDetails.imdb_id}`;
@@ -105,7 +107,7 @@ function displayFavorites() {
     favoritesList.innerHTML = '';
     if (favorites.length > 0) {
         favorites.forEach(movie => {
-            fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=d9cf93b96321e53a7172e2e0a574d66d`)
+            fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apikey}`)
                 .then(response => response.json())
                 .then(movieDetails => {
                     const movieItem = document.createElement('div');
@@ -132,7 +134,7 @@ function displayFavorites() {
 }
 
 function viewDetails(movieId) {
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=d9cf93b96321e53a7172e2e0a574d66d`)
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apikey}`)
         .then(response => response.json())
         .then(movieDetails => {
             const detailsModal = document.getElementById('details-modal');
@@ -157,7 +159,7 @@ function viewDetails(movieId) {
 }
 
 function fetchMovieTrailer(movieId) {
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=d9cf93b96321e53a7172e2e0a574d66d`)
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apikey}`)
         .then(response => response.json())
         .then(data => {
             const trailerContainer = document.getElementById('trailer-container');
